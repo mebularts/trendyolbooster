@@ -1,0 +1,1513 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Trendyol Booster — Takipçi · Favori · Sepet · Dönüşüm</title>
+  <meta name="description" content="Trendyol Booster ile mağazanızı büyütün: Takipçi, Favori ve Sepet sinyalleri aynı kullanıcı akışından, şifresiz, organik görünümlü ve telafili. Starter, Pro, Business paketleri; canlı grafikler, süreç yönetimi ve WhatsApp/Telegram destek.">
+  <meta property="og:title" content="Trendyol Booster — Takipçi · Favori · Sepet">
+  <meta property="og:description" content="Şifresiz · Organik görünümlü · Telafili · Düşüş olmaz. Trendyol mağazanızı güvenle büyütün.">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      /* Trendyol palette */
+      --ty-orange: #F27A1A;
+      --ty-orange-2: #ff5f45;
+      --ty-yellow: #ffc043;
+      --ty-purple: #8f57ff;
+      --ty-teal: #2dd4bf;
+      
+      /* Modern renkler */
+      --bg: #0b0b0d;
+      --bg-2: #12141a;
+      --bg-3: #1a1d26;
+      --ink: #f3f4f6;
+      --ink-2: #cfd6e4;
+      --ink-3: #9aa3b2;
+      --line: #232633;
+      --grad: linear-gradient(135deg, var(--ty-orange), var(--ty-orange-2), var(--ty-purple));
+      --grad-subtle: linear-gradient(135deg, rgba(242, 122, 26, 0.15), rgba(143, 87, 255, 0.15));
+      
+      --radius: 16px;
+      --radius-lg: 24px;
+      --shadow: 0 14px 36px rgba(0,0,0,.42);
+      --shadow-sm: 0 4px 12px rgba(0,0,0,.15);
+      
+      /* Animasyonlar */
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html, body {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background: 
+        radial-gradient(1200px 600px at 80% -10%, rgba(242, 122, 26, .22), transparent 60%),
+        var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    img {
+      max-width: 100%;
+      display: block;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+    
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: saturate(180%) blur(10px);
+      background: rgba(11, 11, 13, .92);
+      border-bottom: 1px solid var(--line);
+      transition: var(--transition);
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.25rem;
+    }
+    
+    .logo b {
+      color: var(--ty-orange);
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--ink);
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 101;
+    }
+    
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .btn.primary {
+      background: var(--grad);
+      box-shadow: var(--shadow);
+      color: white;
+    }
+    
+    .btn.ghost {
+      border-color: var(--line);
+      background: rgba(255, 255, 255, .04);
+      color: var(--ink);
+    }
+    
+    .btn.ghost:hover {
+      background: rgba(255, 255, 255, .08);
+    }
+    
+    .btn.link {
+      padding: 8px 12px;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+    
+    .btn.link:hover {
+      opacity: 1;
+    }
+    
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 40px;
+      position: relative;
+    }
+    
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+    }
+    
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .05);
+      color: var(--ink-2);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+    
+    h1.title {
+      font-size: clamp(2.5rem, 5vw, 3.75rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin: 16px 0;
+    }
+    
+    .brand {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .subtitle {
+      color: var(--ink-2);
+      font-size: 1.125rem;
+      margin-bottom: 24px;
+      max-width: 90%;
+    }
+    
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+    }
+    
+    .pill {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      color: var(--ink-2);
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    
+    .pill:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .hero-cta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+    
+    /* Sections */
+    section {
+      padding: 80px 0;
+      position: relative;
+    }
+    
+    .section-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      margin: 0 0 16px;
+      line-height: 1.2;
+    }
+    
+    .section-kicker {
+      color: var(--ink-3);
+      font-size: 1.125rem;
+      margin-bottom: 32px;
+      max-width: 700px;
+    }
+    
+    /* Bubbles */
+    .bubbles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    
+    .bubble {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      padding: 20px;
+      border-radius: var(--radius);
+      transition: var(--transition);
+    }
+    
+    .bubble:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+    
+    .bubble i {
+      font-size: 1.5rem;
+      color: var(--ty-orange);
+      background: var(--grad-subtle);
+      padding: 12px;
+      border-radius: 12px;
+    }
+    
+    .bubble-content {
+      flex: 1;
+    }
+    
+    .bubble-content strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.1rem;
+    }
+    
+    .bubble-content .muted {
+      color: var(--ink-3);
+      font-size: 0.95rem;
+    }
+    
+    /* Metrics */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    
+    .metric {
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    
+    .metric:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+    
+    .metric .num {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--ty-yellow);
+      margin-bottom: 8px;
+    }
+    
+    .metric .cap {
+      color: var(--ink-3);
+      font-size: 0.95rem;
+    }
+    
+    /* Steps */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    
+    .step {
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .step:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+    
+    .step::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--grad);
+    }
+    
+    .step .k {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--grad);
+      font-weight: 800;
+      margin-bottom: 16px;
+      color: white;
+    }
+    
+    .step strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+    
+    /* Cards */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+    }
+    
+    .card.popular::before {
+      content: 'En Popüler';
+      position: absolute;
+      top: 16px;
+      right: -34px;
+      background: var(--ty-purple);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 40px;
+      transform: rotate(45deg);
+    }
+    
+    .card .head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .plan {
+      font-weight: 800;
+      font-size: 1.25rem;
+    }
+    
+    .price {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--ty-yellow);
+    }
+    
+    .muted {
+      color: var(--ink-3);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    
+    .features {
+      margin: 20px 0;
+      display: grid;
+      gap: 12px;
+    }
+    
+    .feature {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    
+    .feature i {
+      color: var(--ty-orange);
+      margin-top: 2px;
+      font-size: 1.1rem;
+    }
+    
+    .cta-block {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    
+    .pill-note {
+      font-size: 0.85rem;
+      color: var(--ink-3);
+    }
+    
+    /* Charts */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    
+    .chart-container {
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: var(--transition);
+    }
+    
+    .chart-container:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+    
+    .chart-legend {
+      font-size: 0.9rem;
+      color: var(--ink-3);
+      margin-top: 12px;
+      text-align: center;
+    }
+    
+    /* Testimonials */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    
+    .testimonial {
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: var(--transition);
+    }
+    
+    .testimonial:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+    
+    .testimonial .who {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--ty-orange), var(--ty-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+    
+    /* FAQ */
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 16px;
+    }
+    
+    details {
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: var(--transition);
+    }
+    
+    details:hover {
+      box-shadow: var(--shadow-sm);
+    }
+    
+    details[open] {
+      background: var(--bg-2);
+    }
+    
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      outline: none;
+      padding-right: 30px;
+      position: relative;
+    }
+    
+    summary::after {
+      content: '+';
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 1.5rem;
+      font-weight: 400;
+      transition: var(--transition);
+    }
+    
+    details[open] summary::after {
+      content: '-';
+    }
+    
+    details .muted {
+      margin-top: 16px;
+      display: block;
+    }
+    
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 40px;
+    }
+    
+    .input-group {
+      margin-bottom: 16px;
+    }
+    
+    .input {
+      width: 100%;
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    
+    .input:focus {
+      outline: none;
+      border-color: var(--ty-orange);
+      box-shadow: 0 0 0 3px rgba(242, 122, 26, 0.2);
+    }
+    
+    textarea.input {
+      min-height: 140px;
+      resize: vertical;
+    }
+    
+    .contact-cta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 40px 0;
+    }
+    
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    /* Floating mobile CTA */
+    .float-cta {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 1000;
+      background: rgba(20, 24, 35, .95);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+      padding: 12px 20px;
+      border-radius: 50px;
+      box-shadow: var(--shadow);
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-5px); }
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate {
+      animation: fadeIn 0.6s ease forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    
+    /* Responsive styles */
+    @media (max-width: 1024px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+      }
+      
+      .subtitle {
+        max-width: 100%;
+      }
+      
+      .pill-list {
+        justify-content: center;
+      }
+      
+      .hero-cta {
+        justify-content: center;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        padding: 12px 0;
+      }
+      
+      .nav-toggle {
+        display: block;
+      }
+      
+      .nav-actions {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: var(--bg-2);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 80px 30px 30px;
+        transition: right 0.3s ease;
+        z-index: 99;
+        box-shadow: -5px 0 25px rgba(0,0,0,0.2);
+      }
+      
+      .nav-actions.active {
+        right: 0;
+      }
+      
+      .btn.link {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      
+      .btn.ghost, .btn.primary {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+      }
+      
+      section {
+        padding: 60px 0;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .faq-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 16px;
+      }
+      
+      .hero {
+        padding: 60px 0 30px;
+      }
+      
+      .hero-cta {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .hero-cta .btn {
+        width: 100%;
+      }
+      
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .card.popular::before {
+        font-size: 0.7rem;
+        right: -38px;
+      }
+      
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .metric .num {
+        font-size: 2rem;
+      }
+      
+      .steps-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .float-cta {
+        width: 90%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container header-container">
+    <div class="logo">
+      <i class="fa-solid fa-rocket"></i> 
+      <b>Trendyol Booster</b>
+    </div>
+    
+    <button class="nav-toggle" id="navToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="nav-actions" id="navActions">
+      <a class="btn link" href="#nasil">Nasıl Çalışır</a>
+      <a class="btn link" href="#grafikler">Grafikler</a>
+      <a class="btn link" href="#paketler">Paketler</a>
+      <a class="btn link" href="#sss">SSS</a>
+      <a class="btn ghost" href="https://t.me/mebularts" target="_blank">
+        <i class="fa-brands fa-telegram"></i> Telegram
+      </a>
+      <a class="btn primary" href="https://wa.me/12513160268?text=Trendyol%20Booster%20paketleri%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum" target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i> WhatsApp
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-content">
+    <div class="animate">
+      <span class="eyebrow animate delay-1">
+        <i class="fa-solid fa-shield-halved" style="color:var(--ty-orange)"></i> 
+        Şifresiz · Telafili · Düşüşsüz
+      </span>
+      <h1 class="title animate delay-1">
+        Trendyol <span class="brand">Booster</span> ile Mağazanızı Hızla Büyütün
+      </h1>
+      <p class="subtitle animate delay-2">
+        Takipçi 👥 · Favori ❤️ · Sepete Ekleme 🛒 — <strong>aynı kullanıcı akışıyla</strong> (takip → favori → sepet), <strong>organik hızlarda</strong>, <strong>telafi garantili</strong>.
+      </p>
+      <div class="pill-list animate delay-2">
+        <span class="pill"><i class="fa-solid fa-lock"></i> Mağaza şifresi istenmez</span>
+        <span class="pill"><i class="fa-solid fa-people-group"></i> Aynı hesaplardan çoklu işlem</span>
+        <span class="pill"><i class="fa-solid fa-leaf"></i> Organik görünümlü dağılım</span>
+        <span class="pill"><i class="fa-solid fa-rotate"></i> Telafi & Düşüşsüz</span>
+      </div>
+      <div class="hero-cta animate delay-3">
+        <a class="btn primary" href="https://wa.me/12513160268?text=Starter%2FPro%2FBusiness%20paketlerinden%20birini%20sat%C4%B1n%20almak%20istiyorum" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i> Hemen Başla
+        </a>
+        <a class="btn ghost" href="#grafikler">
+          <i class="fa-solid fa-chart-line"></i> Yükselişi Gör
+        </a>
+      </div>
+    </div>
+    <div class="chart-container animate delay-4">
+      <canvas id="chartIntro" height="160"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK BUBBLES -->
+<section>
+  <div class="container">
+    <div class="bubbles-grid">
+      <div class="bubble animate">
+        <i class="fa-solid fa-user-plus"></i>
+        <div class="bubble-content">
+          <strong>Takipçi Artışı</strong>
+          <div class="muted">Sosyal kanıt & güven</div>
+        </div>
+      </div>
+      <div class="bubble animate delay-1">
+        <i class="fa-solid fa-heart"></i>
+        <div class="bubble-content">
+          <strong>Favori Sinyali</strong>
+          <div class="muted">Ürün görünürlüğü</div>
+        </div>
+      </div>
+      <div class="bubble animate delay-2">
+        <i class="fa-solid fa-cart-plus"></i>
+        <div class="bubble-content">
+          <strong>Sepet Eklemeleri</strong>
+          <div class="muted">Dönüşüm zemini</div>
+        </div>
+      </div>
+      <div class="bubble animate delay-3">
+        <i class="fa-solid fa-users-gear"></i>
+        <div class="bubble-content">
+          <strong>Aynı Hesaplar</strong>
+          <div class="muted">Tutarlı davranış</div>
+        </div>
+      </div>
+      <div class="bubble animate delay-1">
+        <i class="fa-solid fa-stopwatch"></i>
+        <div class="bubble-content">
+          <strong>Zamana Yayılım</strong>
+          <div class="muted">Doğal tempo</div>
+        </div>
+      </div>
+      <div class="bubble animate delay-2">
+        <i class="fa-solid fa-shield-heart"></i>
+        <div class="bubble-content">
+          <strong>Telafi Garantisi</strong>
+          <div class="muted">Kayıpsız sonuç</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section>
+  <div class="container">
+    <h2 class="section-title animate">Son 30 Gün Performans Özeti</h2>
+    <div class="section-kicker animate delay-1">Örnek dashboard metrikleri</div>
+    <div class="metrics-grid">
+      <div class="metric animate delay-1">
+        <div class="num" data-k="124">0</div>
+        <div class="cap">Tamamlanan Proje</div>
+      </div>
+      <div class="metric animate delay-2">
+        <div class="num" data-k="124">0</div>
+        <div class="cap">Memnun Müşteri</div>
+      </div>
+      <div class="metric animate delay-3">
+        <div class="num" data-k="2.8">0</div>
+        <div class="cap">Ort. ROAS Artışı (x)</div>
+      </div>
+      <div class="metric animate delay-4">
+        <div class="num" data-k="0">0</div>
+        <div class="cap">Şifre Talebi / İhlal</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="nasil">
+  <div class="container">
+    <h2 class="section-title animate">Nasıl Çalışır?</h2>
+    <div class="section-kicker animate delay-1">Mağazanızı güvenle büyütmenin 4 adımı</div>
+    
+    <div class="steps-grid">
+      <div class="step animate delay-1">
+        <div class="k">1</div>
+        <strong>Analiz & Plan</strong>
+        <div class="muted">Mağaza/ürün linklerinizi inceler, uygun <strong>takip → favori → sepet</strong> akış oranlarını belirleriz.</div>
+      </div>
+      <div class="step animate delay-2">
+        <div class="k">2</div>
+        <strong>Aynı Hesap Akışı</strong>
+        <div class="muted">Aynı kullanıcılar sırayla sizi <strong>takip eder</strong>, ürünleri <strong>favoriler</strong> ve <strong>sepete ekler</strong>.</div>
+      </div>
+      <div class="step animate delay-3">
+        <div class="k">3</div>
+        <strong>Organik Hız & Dağılım</strong>
+        <div class="muted">Etkileşimler gün ve saatlere yayılır; ani pikler oluşturulmaz.</div>
+      </div>
+      <div class="step animate delay-4">
+        <div class="k">4</div>
+        <strong>Rapor & Telafi</strong>
+        <div class="muted">Süreç raporlanır; olası kayıplar <strong>ücretsiz telafi</strong> edilir; <strong>düşüş olmaz</strong>.</div>
+      </div>
+    </div>
+    
+    <div class="chart-container" style="margin-top: 40px;">
+      <h3 style="margin-top: 0; margin-bottom: 16px;">Güven & Uyum</h3>
+      <ul class="features">
+        <li class="feature animate delay-1">
+          <i class="fa-solid fa-lock"></i>
+          <div><strong>Şifre istemeyiz</strong> — yalnızca linkler yeterli.</div>
+        </li>
+        <li class="feature animate delay-2">
+          <i class="fa-solid fa-leaf"></i>
+          <div><strong>Organik görünümlü hız/dağılım</strong> — gerçek kullanıcı davranışına benzer.</div>
+        </li>
+        <li class="feature animate delay-3">
+          <i class="fa-solid fa-people-group"></i>
+          <div><strong>Aynı kullanıcı havuzu</strong>ndan birleşik etkileşim (takip+favori+sepet).</div>
+        </li>
+        <li class="feature animate delay-4">
+          <i class="fa-solid fa-rotate"></i>
+          <div><strong>Telafi garantisi</strong> — sayı düşerse yeniden uygulanır.</div>
+        </li>
+      </ul>
+      <div class="pill-note">Not: Grafikler temsilidir; gerçek dağıtım mağaza büyüklüğü ve hedeflere göre özelleştirilir.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHARTS -->
+<section id="grafikler">
+  <div class="container">
+    <h2 class="section-title animate">Canlı Grafikler</h2>
+    <div class="section-kicker animate delay-1">Takipçi, favori ve sepete ekleme sinyallerinin örnek ilerleyişi</div>
+    
+    <div class="charts-grid">
+      <div class="chart-container animate delay-1">
+        <canvas id="chLine"></canvas>
+        <div class="chart-legend">Haftalık büyüme (Line)</div>
+      </div>
+      <div class="chart-container animate delay-2">
+        <canvas id="chBar"></canvas>
+        <div class="chart-legend">Paket dağılımı (Stacked Bar)</div>
+      </div>
+      <div class="chart-container animate delay-3">
+        <canvas id="chDoughnut"></canvas>
+        <div class="chart-legend">Ürün bazlı oranlar (Doughnut)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="paketler">
+  <div class="container">
+    <h2 class="section-title animate">Paketler</h2>
+    <div class="section-kicker animate delay-1">Hepsi <strong>aynı kullanıcılar</strong> üzerinden: Takipçi → Favori → Sepet</div>
+
+    <!-- Quick Cards -->
+    <div class="cards-grid">
+      <div class="card animate delay-1">
+        <div class="head">
+          <div class="plan">Starter</div>
+          <div class="price">1.500₺</div>
+        </div>
+        <div class="muted">Yeni başlayan mağazalar için temel güçlendirme.</div>
+        <ul class="features">
+          <li class="feature">
+            <i class="fa-solid fa-user-plus"></i>
+            <div>1.000 Takipçi</div>
+          </li>
+          <li class="feature">
+            <i class="fa-solid fa-heart"></i>
+            <div>1.000 Favori</div>
+          </li>
+          <li class="feature">
+            <i class="fa-solid fa-cart-plus"></i>
+            <div>1.000 Sepet</div>
+          </li>
+        </ul>
+        <div class="cta-block">
+          <a class="btn primary" href="https://wa.me/12513160268?text=Starter%20paketi%20sat%C4%B1n%20almak%20istiyorum" target="_blank">
+            <i class="fa-brands fa-whatsapp"></i> Satın Al
+          </a>
+          <span class="pill-note">24–72 saatte teslim</span>
+        </div>
+      </div>
+      
+      <div class="card popular animate delay-2">
+        <div class="head">
+          <div class="plan">Pro</div>
+          <div class="price">5.000₺</div>
+        </div>
+        <div class="muted">Görünürlük + dönüşüm sinyali birlikte.</div>
+        <ul class="features">
+          <li class="feature">
+            <i class="fa-solid fa-user-plus"></i>
+            <div>5.000 Takipçi</div>
+          </li>
+          <li class="feature">
+            <i class="fa-solid fa-heart"></i>
+            <div>5.000 Favori</div>
+          </li>
+          <li class="feature">
+            <i class="fa-solid fa-cart-plus"></i>
+            <div>5.000 Sepet</div>
+          </li>
+        </ul>
+        <div class="cta-block">
+          <a class="btn primary" href="https://wa.me/12513160268?text=Pro%20paketi%20sat%C4%B1n%20almak%20istiyorum" target="_blank">
+            <i class="fa-brands fa-whatsapp"></i> Satın Al
+          </a>
+          <span class="pill-note">48–96 saatte teslim</span>
+        </div>
+      </div>
+      
+      <div class="card animate delay-3">
+        <div class="head">
+          <div class="plan">Business</div>
+          <div class="price">8.000₺</div>
+        </div>
+        <div class="muted">Kampanya öncesi güçlü itki.</div>
+        <ul class="features">
+          <li class="feature">
+            <i class="fa-solid fa-user-plus"></i>
+            <div>10.000 Takipçi</div>
+          </li>
+          <li class="feature">
+            <i class="fa-solid fa-heart"></i>
+            <div>10.000 Favori</div>
+          </li>
+          <li class="feature">
+            <i class="fa-solid fa-cart-plus"></i>
+            <div>10.000 Sepet</div>
+          </li>
+        </ul>
+        <div class="cta-block">
+          <a class="btn primary" href="https://wa.me/12513160268?text=Business%20paketi%20sat%C4%B1n%20almak%20istiyorum" target="_blank">
+            <i class="fa-brands fa-whatsapp"></i> Satın Al
+          </a>
+          <span class="pill-note">Ürün bazlı dağıtım</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="container">
+    <h2 class="section-title animate">Müşteri Yorumları</h2>
+    <div class="section-kicker animate delay-1">Gerçek projelerden gelen geri bildirim örnekleri</div>
+    
+    <div class="testimonials-grid">
+      <div class="testimonial animate delay-1">
+        <div class="who">
+          <div class="avatar">A</div>
+          <div>
+            <strong>Ayşe T.</strong>
+            <div class="muted">@moda-atelier</div>
+          </div>
+        </div>
+        "Pro paketten sonra 2 hafta içinde favoriler 4x arttı. Kampanya gününde sepetler hazırdı; reklam ROAS'ımız net yükseldi."
+      </div>
+      
+      <div class="testimonial animate delay-2">
+        <div class="who">
+          <div class="avatar">C</div>
+          <div>
+            <strong>Can B.</strong>
+            <div class="muted">@evdekor-tr</div>
+          </div>
+        </div>
+        "Şifre istememeleri ve aynı hesaplardan akış yapmaları içimi rahatlattı. Düşüş olmadı, telafiyi hiç kullanmaya gerek kalmadı."
+      </div>
+      
+      <div class="testimonial animate delay-3">
+        <div class="who">
+          <div class="avatar">S</div>
+          <div>
+            <strong>Sude K.</strong>
+            <div class="muted">@aksesuar-box</div>
+          </div>
+        </div>
+        "Business ile indirim haftasına güçlü girdik. Arama görünürlüğünde bariz artış oldu."
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="sss">
+  <div class="container">
+    <h2 class="section-title animate">Sık Sorulan Sorular</h2>
+    
+    <div class="faq-grid">
+      <details class="animate delay-1">
+        <summary>Mağaza şifresi neden istenmiyor?</summary>
+        <div class="muted">Güven için: yalnızca mağaza/ürün linkleri yeterlidir. Hiçbir zaman şifre, 2FA kodu veya ödeme bilgisi talep edilmez.</div>
+      </details>
+      
+      <details class="animate delay-2">
+        <summary>Aynı hesaplardan işlem yapmak neden önemli?</summary>
+        <div class="muted">Takip → Favori → Sepet akışının aynı kullanıcıdan gelmesi, davranışın <strong>doğal ve tutarlı</strong> görünmesini sağlar; bu da algoritma açısından daha sağlıklıdır.</div>
+      </details>
+      
+      <details class="animate delay-3">
+        <summary>"Telafi" ne demek?</summary>
+        <div class="muted">Olası kayıplarda ücretsiz ekleme yapılması. Böylece toplam değerleriniz korunur; <strong>düşüş olmaz</strong> prensibine bağlı kalınır.</div>
+      </details>
+      
+      <details class="animate delay-4">
+        <summary>Hız ve dağılım nasıl ayarlanıyor?</summary>
+        <div class="muted">Ani piklerden kaçınmak için işlemler gün ve saatlere yayılır. Ürün bazlı stratejiyle bazı kalemler önceliklendirilir.</div>
+      </details>
+      
+      <details class="animate delay-1">
+        <summary>Raporlama yapılıyor mu?</summary>
+        <div class="muted">Evet. Süreç boyunca özet metrikler, bitişte toplam teslim raporu paylaşılır. İsteğe bağlı ürün-başına dağılım verilir.</div>
+      </details>
+      
+      <details class="animate delay-2">
+        <summary>Hangi paket bana uygun?</summary>
+        <div class="muted">Yeni mağazalar için <strong>Starter</strong>, düzenli büyüme için <strong>Pro</strong>, kampanya/zirve dönemleri için <strong>Business</strong> önerilir.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="iletisim">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="chart-container animate">
+        <h2 class="section-title" style="margin-top: 0">İletişim</h2>
+        <form onsubmit="return openWA(this)">
+          <div class="input-group">
+            <input class="input" name="ad" placeholder="Ad Soyad" required/>
+          </div>
+          <div class="input-group">
+            <input class="input" name="magaza" placeholder="Trendyol Mağaza Linki" required/>
+          </div>
+          <div class="input-group">
+            <select class="input" name="paket" required>
+              <option value="Starter">Starter — 1.500₺</option>
+              <option value="Pro">Pro — 5.000₺</option>
+              <option value="Business">Business — 8.000₺</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <textarea class="input" name="not" placeholder="Not / Öncelikli ürünleriniz"></textarea>
+          </div>
+          <div class="contact-cta">
+            <button class="btn primary" type="submit">
+              <i class="fa-brands fa-whatsapp"></i> WhatsApp'tan Gönder
+            </button>
+            <a class="btn ghost" href="https://t.me/mebularts" target="_blank">
+              <i class="fa-brands fa-telegram"></i> Telegram
+            </a>
+          </div>
+        </form>
+        <div class="pill-note" style="margin-top: 16px;">
+          Formu gönderince WhatsApp'ta ön yazınız hazır açılır. Şifre talep edilmez.
+        </div>
+      </div>
+      
+      <div class="chart-container animate delay-1">
+        <h3 style="margin-top: 0">Neden Trendyol Booster?</h3>
+        <ul class="features" style="margin-top: 16px;">
+          <li class="feature">
+            <i class="fa-solid fa-circle-check"></i>
+            <div>Gerçekçi <strong>tek-hesap akışı</strong>: takip → favori → sepet</div>
+          </li>
+          <li class="feature">
+            <i class="fa-solid fa-lock"></i>
+            <div><strong>Şifresiz</strong> ve güvenli süreç</div>
+          </li>
+          <li class="feature">
+            <i class="fa-solid fa-leaf"></i>
+            <div><strong>Organik görünümlü</strong> hız/dağılım</div>
+          </li>
+          <li class="feature">
+            <i class="fa-solid fa-rotate"></i>
+            <div><strong>Telafili</strong> ve <strong>düşüşsüz</strong> sonuç</div>
+          </li>
+        </ul>
+        <div class="pill-note">Özel ihtiyaçlar için paket & takvim özelleştirmesi yapılır.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-content">
+    <div class="logo">
+      <i class="fa-solid fa-rocket" style="color:var(--ty-orange)"></i> 
+      <b>Trendyol Booster</b>
+    </div>
+    <div class="muted">© <span id="year"></span> — Şifresiz · Telafili · Düşüşsüz</div>
+  </div>
+</footer>
+
+<!-- Floating mobile CTA -->
+<div class="float-cta">
+  <a class="btn primary" href="https://wa.me/12513160268?text=Trendyol%20Booster%20paketleri%20ile%20ba%C5%9Flamak%20istiyorum" target="_blank" rel="noopener">
+    <i class="fa-brands fa-whatsapp"></i> Başla
+  </a>
+  <a class="btn ghost" href="https://t.me/mebularts" target="_blank" rel="noopener">
+    <i class="fa-brands fa-telegram"></i>
+  </a>
+</div>
+
+<!-- JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Trendyol Booster",
+  "url": "",
+  "sameAs": ["https://t.me/mebularts", "https://wa.me/12513160268"],
+  "contactPoint": [{
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "areaServed": "TR",
+    "availableLanguage": ["tr"]
+  }]
+}
+</script>
+
+<script>
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+  
+  // Mobile navigation toggle
+  const navToggle = document.getElementById('navToggle');
+  const navActions = document.getElementById('navActions');
+  
+  navToggle.addEventListener('click', () => {
+    navActions.classList.toggle('active');
+    const icon = navToggle.querySelector('i');
+    if (navActions.classList.contains('active')) {
+      icon.classList.remove('fa-bars');
+      icon.classList.add('fa-times');
+    } else {
+      icon.classList.remove('fa-times');
+      icon.classList.add('fa-bars');
+    }
+  });
+  
+  // Close mobile nav when clicking outside
+  document.addEventListener('click', (e) => {
+    if (navActions.classList.contains('active') && 
+        !navActions.contains(e.target) && 
+        !navToggle.contains(e.target)) {
+      navActions.classList.remove('active');
+      const icon = navToggle.querySelector('i');
+      icon.classList.remove('fa-times');
+      icon.classList.add('fa-bars');
+    }
+  });
+  
+  // Close mobile nav when clicking a link
+  document.querySelectorAll('.nav-actions a').forEach(link => {
+    link.addEventListener('click', () => {
+      navActions.classList.remove('active');
+      const icon = navToggle.querySelector('i');
+      icon.classList.remove('fa-times');
+      icon.classList.add('fa-bars');
+    });
+  });
+
+  // Metrics counters
+  const counters = document.querySelectorAll('.metric .num');
+  const inView = (el) => {
+    const r = el.getBoundingClientRect();
+    return r.top < (window.innerHeight * 0.85) && r.bottom > 0;
+  };
+  
+  const animateCounters = () => {
+    counters.forEach(el => {
+      if (el.dataset.done) return;
+      if (inView(el)) {
+        el.dataset.done = 1;
+        const target = parseFloat(el.dataset.k);
+        const isFloat = !Number.isInteger(target);
+        const dur = 1200, start = performance.now();
+        
+        const step = (t) => {
+          const p = Math.min(1, (t - start) / dur);
+          const val = target * p;
+          el.textContent = isFloat ? val.toFixed(1) : Math.floor(val);
+          if (p < 1) requestAnimationFrame(step);
+        };
+        
+        requestAnimationFrame(step);
+      }
+    });
+  };
+  
+  window.addEventListener('scroll', animateCounters);
+  window.addEventListener('load', animateCounters);
+  
+  // Intersection Observer for animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate');
+      }
+    });
+  }, observerOptions);
+  
+  document.querySelectorAll('.animate').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Charts (Intro)
+  const c1 = document.getElementById('chartIntro');
+  new Chart(c1, {
+    type: 'line',
+    data: {
+      labels: ['Hafta 1', 'Hafta 2', 'Hafta 3', 'Hafta 4'],
+      datasets: [
+        { label: 'Takipçi', data: [300, 1200, 3600, 10000], borderColor: '#F27A1A', tension: .35, borderWidth: 3, pointRadius: 3 },
+        { label: 'Favori', data: [200, 1800, 5200, 10000], borderColor: '#ffc043', tension: .35, borderWidth: 3, pointRadius: 3 },
+        { label: 'Sepet', data: [120, 1500, 4800, 10000], borderColor: '#8f57ff', tension: .35, borderWidth: 3, pointRadius: 3 }
+      ]
+    },
+    options: {
+      responsive: true,
+      animation: { duration: 1800 },
+      plugins: { legend: { labels: { color: '#e5e7eb' } } },
+      scales: {
+        x: { ticks: { color: '#b9c0d4' }, grid: { color: 'rgba(255,255,255,.06)' } },
+        y: { ticks: { color: '#b9c0d4' }, grid: { color: 'rgba(255,255,255,.06)' }, beginAtZero: true }
+      }
+    }
+  });
+
+  // Charts (Detailed)
+  const chLine = new Chart(document.getElementById('chLine'), {
+    type: 'line',
+    data: {
+      labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8'],
+      datasets: [
+        { label: 'Takipçi', data: [50, 400, 900, 1600, 2500, 4000, 7000, 10000], borderColor: '#F27A1A', borderWidth: 3, tension: .35, pointRadius: 0 },
+        { label: 'Favori', data: [30, 240, 700, 1200, 2100, 3800, 6500, 10000], borderColor: '#ffc043', borderWidth: 3, tension: .35, pointRadius: 0 },
+        { label: 'Sepet', data: [10, 180, 520, 900, 1700, 3100, 5200, 10000], borderColor: '#8f57ff', borderWidth: 3, tension: .35, pointRadius: 0 }
+      ]
+    },
+    options: {
+      animation: { duration: 1400 },
+      plugins: { legend: { labels: { color: '#e5e7eb' } } },
+      scales: { x: { ticks: { color: '#b9c0d4' } }, y: { ticks: { color: '#b9c0d4' }, beginAtZero: true } }
+    }
+  });
+
+  const chBar = new Chart(document.getElementById('chBar'), {
+    type: 'bar',
+    data: {
+      labels: ['Starter', 'Pro', 'Business'],
+      datasets: [
+        { label: 'Takipçi', data: [1000, 5000, 10000], backgroundColor: '#F27A1A', stack: 'x' },
+        { label: 'Favori', data: [1000, 5000, 10000], backgroundColor: '#ffc043', stack: 'x' },
+        { label: 'Sepet', data: [1000, 5000, 10000], backgroundColor: '#8f57ff', stack: 'x' }
+      ]
+    },
+    options: {
+      animation: { duration: 1200 },
+      plugins: { legend: { labels: { color: '#e5e7eb' } } },
+      responsive: true,
+      scales: {
+        x: { stacked: true, ticks: { color: '#b9c0d4' } },
+        y: { stacked: true, ticks: { color: '#b9c0d4' }, beginAtZero: true }
+      }
+    }
+  });
+
+  const chDoughnut = new Chart(document.getElementById('chDoughnut'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Ürün A', 'Ürün B', 'Ürün C', 'Ürün D'],
+      datasets: [{ data: [35, 25, 20, 20], backgroundColor: ['#F27A1A', '#ffc043', '#8f57ff', '#2dd4bf'] }]
+    },
+    options: {
+      animation: { animateRotate: true, duration: 1500 },
+      plugins: { legend: { labels: { color: '#e5e7eb' } } },
+      cutout: '60%'
+    }
+  });
+
+  // WhatsApp form open
+  function openWA(form) {
+    const phone = '12513160268';
+    const ad = encodeURIComponent(form.ad.value.trim());
+    const magaza = encodeURIComponent(form.magaza.value.trim());
+    const paket = encodeURIComponent(form.paket.value);
+    const not = encodeURIComponent(form.not.value.trim());
+    const text = `Merhaba,%0A%0AAd: ${ad}%0APaket: ${paket}%0AMağaza: ${magaza}%0ANot: ${not}%0A%0AS%C3%BCreci ba%C5%9Flatmak istiyorum.`;
+    const url = `https://wa.me/${phone}?text=${text}`;
+    window.open(url, '_blank', 'noopener');
+    return false;
+  }
+</script>
+</body>
+</html>
